@@ -1,0 +1,9 @@
+query me {
+    Me {
+        user_id
+        user_email
+        user_fullname
+        user_gender
+        user_mobile
+    }
+}

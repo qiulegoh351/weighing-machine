@@ -1,0 +1,6 @@
+# =============================  FRAGMENTS  =============================
+# Authentication
+fragment TokenResponse on TokenResponse {
+    token
+    token_type
+}

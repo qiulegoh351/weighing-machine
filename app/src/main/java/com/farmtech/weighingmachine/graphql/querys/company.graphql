@@ -1,0 +1,15 @@
+query FleetDropdown {
+    FleetDropdown {
+        fleet_id
+        fleet_name
+        company {
+            company_id
+            company_name
+            company_address
+            company_full_address
+            company_created
+            company_status
+            city_name
+        }
+    }
+}

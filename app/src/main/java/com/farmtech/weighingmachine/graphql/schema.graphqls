@@ -1,0 +1,2868 @@
+type Query {
+  SettingStateAndCityListing(state_id: Int, keyword: String): [SettingStateListing]
+
+  CompanyDetail(company_id: Int): Company
+
+  FleetDetail(fleet_id: Int): Fleet
+
+  FleetDropdown: [FleetLessDetail]
+
+  FleetManageDropdown: [FleetLessDetail]
+
+  HomepageListing(input: HomepageListingInput): Homepage
+
+  NotificationDetail(notification_id: Int): Notification
+
+  RoleDropdown(input: RoleDropdownInput): [RoleLessDetail]
+
+  PermissionCheck(input: PermissionCheckInput): [PermissionCheckResponse]
+
+  SettingDetail(setting_slug: String): Setting
+
+  SettingCityDropdown(state_id: Int): [SettingCityLessDetail]
+
+  SettingStateDropdown(country_id: Int): [SettingStateLessDetail]
+
+  SettingCityPortDropdown(country_id: Int): [SettingCityPortLessDetail]
+
+  SettingCountryDropdown(has_city_ports: Boolean): [SettingCountry]
+
+  SettingCountryDetail(country_id: Int): SettingCountry
+
+  SettingCountryDialcodeDropdown: [SettingCountryDialcodeLessDetail]
+
+  SettingParticularCategoryDropdown: [SettingParticularCategoryLessDetail]
+
+  SettingVesselTypeDropdown(keyword: String): [SettingVesselTypeLessDetail]
+
+  SettingEquipmentCategoryListing(input: SettingEquipmentCategoryListingInput): [SettingEquipmentCategory]
+
+  SettingEquipmentTypeDetail(equipment_type_id: Int): SettingEquipmentType
+
+  Me: User
+
+  UserPicListing(keyword: String, has_company: Boolean): [UserPicListingByAlphabet]
+
+  UserDetail(user_id: Int): User
+
+  UserContactDetail(user_contact_id: Int): UserContact
+
+  UserContactListing(keyword: String): [UserContactListingByAlphabet]
+
+  VesselDetail(vessel_id: Int): Vessel
+
+  VesselDropdown(fleet_id: Int): [VesselLessDetail]
+
+  VesselParticularListing(vessel_id: Int, keyword: String): [VesselParticularListing]
+
+  VesselEquipmentTypeByCategoryListing(input: VesselEquipmentTypeByCategoryInput): [VesselEquipmentTypeListingResponse]
+
+  VesselEquipmentTypeDetail(vessel_equipment_type_id: Int): VesselEquipmentType
+
+  VesselEquipmentAttentionDataListing(input: VesselEquipmentAttentionDataListingInput): [VesselEquipmentAttention]
+
+  VesselServiceReportDetail(vessel_service_report_id: Int): VesselServiceReport
+
+  VesselServiceReportDataListing(input: VesselServiceReportDataListingInput): [VesselServiceReportDate]
+
+  VesselOwnershipTransferListing(input: VesselOwnershipTransferListingInput): [VesselOwnershipTransfer]
+
+  VesselOwnershipTransferDetail(vessel_ownership_transfer_id: Int): VesselOwnershipTransfer
+
+  ActivityLogListing(input: ActivityLogListingInput, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): ActivityPaginator
+
+  FleetListing(input: FleetListingInput, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): FleetPaginator
+
+  FleetPicListing(fleet_id: Int, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): FleetPicPaginator
+
+  NotificationListing(input: NotificationListingInput, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): NotificationPaginator
+
+  VesselListing(input: VesselListingInput, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): VesselPaginator
+
+  VesselEquipmentTypeListing(input: VesselEquipmentTypeListingInput, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): VesselEquipmentTypePaginator
+
+  VesselEquipmentListing(input: VesselEquipmentListingInput, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): VesselEquipmentPaginator
+
+  VesselPicListing(vessel_id: Int, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): VesselPicPaginator
+
+  VesselServiceReportListing(input: ServiceReportListingInput, "Limits number of fetched items." first: Int = 15, "The offset from which items are returned." page: Int): VesselServiceReportPaginator
+}
+
+type SettingStateListing {
+  state_id: Int
+
+  state_name: String
+
+  state_code: String
+
+  state_region: String
+
+  setting_city: [SettingCity]
+}
+
+type SettingCity {
+  city_id: Int!
+
+  city_name: String!
+
+  setting_state: SettingState
+
+  latest_activity_log: ActivityLog
+}
+
+type SettingState {
+  state_id: Int
+
+  state_name: String
+
+  state_code: String
+
+  state_region: String
+
+  latest_activity_log: ActivityLog
+}
+
+type ActivityLog {
+  id: Int
+
+  user: User
+
+  created_at: DateTime
+}
+
+type User {
+  user_id: Int
+
+  user_fullname: String
+
+  user_reference_code: String
+
+  country_dialcode: String
+
+  user_mobile: String
+
+  user_mobile_display: String
+
+  user_email: String
+
+  user_status: UserStatus
+
+  otp_verified: String
+
+  is_verified: Boolean
+
+  user_logindate: String
+
+  user_ip: String
+
+  user_gender: UserGender
+
+  user_nric: String
+
+  user_dob: Date
+
+  user_profile_photo_file_url: String
+
+  user_profile_photo_file: MediaData
+
+  is_added_to_contact: Boolean
+
+  user_created: DateTime
+
+  user_updated: DateTime
+
+  user_role: Role
+
+  user_role_list: RoleWithModel
+
+  user_permissions: [Permission]
+
+  user_nationality: SettingCountry
+
+  user_type: UserType
+
+  company: Company
+
+  company_user: [Company]
+
+  latest_activity_log: ActivityLog
+}
+
+enum UserStatus {
+  active
+
+  pending
+
+  suspend
+}
+
+enum UserGender {
+  male
+
+  female
+}
+
+"""
+A date string with format `Y-m-d`, e.g. `2011-05-23`.
+"""
+scalar Date
+
+type MediaData {
+  media_id: Int
+
+  media_url: String
+
+  media_name: String
+
+  media_type: String
+}
+
+"""
+A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`.
+"""
+scalar DateTime
+
+type Role {
+  id: Int
+
+  name: String
+
+  user_type_slug: UserTypeSlug
+
+  role_type: RoleType
+
+  model_type: String
+
+  model_id: Int
+
+  permission: [Permission]
+}
+
+enum UserTypeSlug {
+  admin
+
+  user
+}
+
+enum RoleType {
+  admin
+
+  company
+
+  fleet_pic
+
+  vessel_pic
+}
+
+type Permission {
+  id: Int
+
+  name: String
+
+  group_name: String
+
+  display_name: String
+
+  user_type_slug: UserTypeSlug
+
+  role_type: RoleType
+
+  ranking: Int
+}
+
+type RoleWithModel {
+  admin: [Role]
+
+  vessel: [Role]
+
+  fleet: [Role]
+
+  company: [Role]
+}
+
+type SettingCountry {
+  country_id: Int
+
+  country_abb: String
+
+  country_name: String
+
+  country_dialcode: String
+
+  country_flag: MediaData
+
+  latest_activity_log: ActivityLog
+}
+
+type UserType {
+  user_type_id: Int!
+
+  user_type_name: String!
+
+  user_type_slug: String!
+}
+
+type Company {
+  company_id: Int
+
+  company_name: String
+
+  company_address: String
+
+  company_address_2: String
+
+  company_postcode: String
+
+  company_full_address: String
+
+  company_status: CompanyStatus
+
+  company_profile_photo_file_url: String
+
+  company_profile_photo_file: MediaData
+
+  city_name: String
+
+  state_name: String
+
+  company_created: DateTime
+
+  company_updated: DateTime
+
+  fleet_count: Int
+
+  setting_city: SettingCity
+
+  setting_state: SettingState
+
+  setting_country: SettingCountry
+
+  setting_city_port: SettingCityPort
+
+  user: User
+
+  company_user: [User]
+
+  latest_activity_log: ActivityLog
+}
+
+enum CompanyStatus {
+  active
+
+  inactive
+}
+
+type SettingCityPort {
+  city_port_id: Int
+
+  city_port_code: String
+
+  city_port_name: String
+
+  city_port_description: String
+
+  city_port_status: CityPortStatus
+
+  setting_country: SettingCountry
+
+  latest_activity_log: ActivityLog
+}
+
+enum CityPortStatus {
+  active
+
+  inactive
+}
+
+type Fleet {
+  fleet_id: Int
+
+  fleet_name: String
+
+  fleet_description: String
+
+  fleet_remark: String
+
+  user_pic_count: Int
+
+  vessel_count: Int
+
+  is_owner: Boolean
+
+  fleet_created: DateTime
+
+  fleet_updated: DateTime
+
+  vessel: [Vessel]
+
+  user: User
+
+  owner: User
+
+  company: Company
+
+  user_pic: [User]
+
+  my_role: RoleDetail
+
+  latest_activity_log: ActivityLog
+}
+
+type Vessel {
+  vessel_id: Int
+
+  fleet_id: Int
+
+  vessel_imo_code: String
+
+  vessel_name: String
+
+  vessel_remark: String
+
+  vessel_description: String
+
+  vessel_image: [MediaData]
+
+  vessel_created: DateTime
+
+  vessel_updated: DateTime
+
+  setting_vessel_type: SettingVesselType
+
+  vessel_particular: [VesselParticular]
+
+  vessel_equipment_type: [VesselEquipmentType]
+
+  fleet: Fleet
+
+  vessel_service_report: [VesselServiceReport]
+
+  user_pic_count: Int
+
+  vessel_particular_count: Int
+
+  vessel_equipment_type_count: Int
+
+  my_role: RoleDetail
+
+  warning_type: WarningType
+
+  latest_activity_log: ActivityLog
+
+  vessel_equipment_attention: [VesselEquipmentAttention]
+
+  vessel_ownership_transfer_pending: VesselOwnershipTransferPending
+}
+
+type SettingVesselType {
+  vessel_type_id: Int
+
+  vessel_type_priority: Int
+
+  vessel_type_name: String
+
+  vessel_type_status: VesselTypeStatus
+
+  vessel_type_created: DateTime
+
+  vessel_type_updated: DateTime
+
+  setting_form: SettingForm
+
+  latest_activity_log: ActivityLog
+}
+
+enum VesselTypeStatus {
+  active
+
+  inactive
+}
+
+type SettingForm {
+  form_id: Int
+
+  form_name: String
+
+  form_description: String
+
+  form_status: FormStatus
+
+  form_created: DateTime
+
+  form_updated: DateTime
+
+  form_deleted: DateTime
+
+  setting_particular: [SettingParticular]
+
+  latest_activity_log: ActivityLog
+}
+
+enum FormStatus {
+  active
+
+  inactive
+}
+
+type SettingParticular {
+  particular_id: Int
+
+  particular_priority: Int
+
+  particular_name: String
+
+  particular_format: ParticularFormat
+
+  particular_description: String
+
+  is_required_value: Int
+
+  is_display_name: Int
+
+  particular_properties: Json
+
+  particular_prefix: String
+
+  particular_postfix: String
+
+  particular_remarks: String
+
+  particular_status: ParticularStatus
+
+  particular_created: DateTime
+
+  particular_updated: DateTime
+
+  setting_option: [SettingOption]
+
+  setting_particular_category: SettingParticularCategory
+
+  vessel_particular: VesselParticular
+
+  latest_activity_log: ActivityLog
+}
+
+enum ParticularFormat {
+  text
+
+  number
+
+  selection
+
+  checkbox
+
+  date
+}
+
+scalar Json
+
+enum ParticularStatus {
+  active
+
+  inactive
+}
+
+type SettingOption {
+  option_id: Int
+
+  option_value: String
+
+  model_id: Int
+
+  model_type: String
+
+  option_properties: Json
+
+  parent_option_id: Int
+
+  option_created: DateTime
+
+  option_updated: DateTime
+}
+
+type SettingParticularCategory {
+  particular_category_id: Int
+
+  particular_category_priority: Int
+
+  particular_category_name: String
+
+  particular_category_status: ParticularCategoryStatus
+
+  particular_category_description: String
+
+  particular_category_created: DateTime
+
+  particular_category_updated: DateTime
+
+  setting_particular: [SettingParticular]
+
+  latest_activity_log: ActivityLog
+}
+
+enum ParticularCategoryStatus {
+  active
+
+  inactive
+}
+
+type VesselParticular {
+  vessel_particular_id: Int
+
+  vessel_id: Int
+
+  particular_id: Int
+
+  vessel_particular_name: String
+
+  vessel_particular_value: Json
+
+  vessel_particular_created: DateTime
+
+  vessel_particular_updated: DateTime
+
+  setting_particular: SettingParticular
+
+  setting_particular_category: SettingParticularCategory
+
+  vessel: Vessel
+
+  latest_activity_log: ActivityLog
+}
+
+type VesselEquipmentType {
+  vessel_equipment_type_id: Int
+
+  vessel_equipment_type_name: String
+
+  warning_type: WarningType
+
+  warning_data: [WarningData]
+
+  vessel_equipment_summary: VesselEquipmentSummary
+
+  vessel_equipment_type_created: DateTime
+
+  vessel_equipment_type_updated: DateTime
+
+  vessel_equipment_type_deleted: DateTime
+
+  vessel: Vessel
+
+  vessel_equipment: [VesselEquipment]
+
+  setting_equipment_type: SettingEquipmentType
+
+  setting_equipment_category: SettingEquipmentCategory
+
+  vessel_service_report: [VesselServiceReport]
+
+  latest_activity_log: ActivityLog
+}
+
+enum WarningType {
+  danger
+
+  warning
+}
+
+type WarningData {
+  warning_type: WarningType
+
+  message: String
+}
+
+type VesselEquipmentSummary {
+  total_equipment_field: Int
+
+  total_equipment_field_filled: Int
+
+  equipment_overview: String
+}
+
+type VesselEquipment {
+  vessel_equipment_id: Int
+
+  vessel_equipment_type_id: Int
+
+  vessel_equipment_name: String
+
+  vessel_equipment_value: Json
+
+  is_attention_date: Int
+
+  vessel_equipment_quantity: Int
+
+  vessel_equipment_remark: String
+
+  vessel_equipment_created: DateTime
+
+  vessel_equipment_updated: DateTime
+
+  vessel: Vessel
+
+  setting_equipment: SettingEquipment
+
+  vessel_service_report: [VesselServiceReport]
+
+  latest_activity_log: ActivityLog
+
+  warning_type: WarningType
+}
+
+type SettingEquipment {
+  equipment_id: Int
+
+  equipment_name: String
+
+  equipment_format: EquipmentFormat
+
+  is_required_value: Int
+
+  is_quantity: Int
+
+  is_attention_date: Int
+
+  equipment_properties: Json
+
+  vessel_equipment: VesselEquipment
+
+  setting_option: [SettingOption]
+
+  setting_equipment_type: SettingEquipmentType
+
+  latest_activity_log: ActivityLog
+}
+
+enum EquipmentFormat {
+  text
+
+  multiple_text
+
+  textarea
+
+  integer
+
+  number
+
+  selection
+
+  tag
+
+  checkbox
+
+  date
+}
+
+type SettingEquipmentType {
+  equipment_type_id: Int
+
+  equipment_type_priority: Int
+
+  equipment_type_name: String
+
+  equipment_type_description: String
+
+  equipment_type_remark: String
+
+  equipment_type_status: EquipmentTypeStatus
+
+  equipment_type_created: DateTime
+
+  equipment_type_updated: DateTime
+
+  setting_equipment: [SettingEquipment]
+
+  setting_equipment_category: SettingEquipmentCategory
+
+  latest_activity_log: ActivityLog
+}
+
+enum EquipmentTypeStatus {
+  active
+
+  inactive
+}
+
+type SettingEquipmentCategory {
+  equipment_category_id: Int
+
+  equipment_category_priority: Int
+
+  equipment_category_name: String
+
+  equipment_category_description: String
+
+  equipment_category_status: EquipmentCategoryStatus
+
+  is_default: Int
+
+  equipment_category_created: DateTime
+
+  equipment_category_updated: DateTime
+
+  setting_equipment_type: [SettingEquipmentType]
+
+  latest_activity_log: ActivityLog
+}
+
+enum EquipmentCategoryStatus {
+  active
+
+  inactive
+}
+
+type VesselServiceReport {
+  vessel_service_report_id: Int
+
+  vessel_id: Int
+
+  vessel_equipment_id: Int
+
+  vessel_service_report_name: String
+
+  vessel_service_report_date: Date
+
+  vessel_service_report_created: DateTime
+
+  vessel_service_report_updated: DateTime
+
+  vessel_service_report_file: [MediaData]
+
+  vessel_equipment: VesselEquipment
+
+  vessel: Vessel
+
+  user: User
+
+  latest_activity_log: ActivityLog
+}
+
+type RoleDetail {
+  id: Int
+
+  name: String
+
+  user_type_slug: UserTypeSlug
+
+  user_type_name: String
+
+  permissions: [Permission]
+}
+
+type VesselEquipmentAttention {
+  vessel: Vessel
+
+  vessel_equipment: VesselEquipment
+
+  vessel_equipment_type: VesselEquipmentType
+
+  vessel_equipment_name: String
+
+  vessel_equipment_attention_date: Date
+
+  warning_type: WarningType
+
+  warning_data: WarningData
+
+  is_notified: Int
+}
+
+type VesselOwnershipTransferPending {
+  vessel_ownership_transfer_id: Int
+
+  fleet_old: Fleet
+
+  fleet_new: Fleet
+
+  user: User
+
+  vessel_ownership_transfer_status: String
+}
+
+type FleetLessDetail {
+  fleet_id: Int
+
+  fleet_name: String
+
+  company: Company
+}
+
+input HomepageListingInput {
+  vessel_limit: Int
+
+  vessel_service_report_limit: Int
+
+  vessel_equipment_attention_limit: Int
+}
+
+type Homepage {
+  total_fleet: Int
+
+  total_vessel: Int
+
+  total_vessel_equipment_attention: Int
+
+  in_charge_vessel: [Vessel]
+
+  vessel_service_report: [VesselServiceReport]
+
+  vessel_equipment_attention: [VesselEquipmentAttention]
+}
+
+type Notification {
+  notification_id: Int
+
+  notification_type_id: Int
+
+  notification_header: String
+
+  notification_content: String
+
+  model_type: String
+
+  model_type_name: NotificationModelType
+
+  model_id: Int
+
+  user_id: Int
+
+  notification_scheduled: DateTime
+
+  notification_sent: DateTime
+
+  notification_read: DateTime
+
+  notification_created: DateTime
+
+  notification_updated: DateTime
+
+  notification_type: NotificationType
+
+  user: User
+
+  announcement: Announcement
+}
+
+enum NotificationModelType {
+  fleet
+
+  vessel
+
+  vessel_equipment
+
+  vessel_equipment_type
+
+  vessel_service_report
+}
+
+type NotificationType {
+  notification_type_id: Int
+
+  notification_type_name: String
+
+  notification_type_template: Json
+
+  notification_type_created: DateTime
+
+  notification_type_updated: DateTime
+
+  latest_activity_log: ActivityLog
+}
+
+type Announcement {
+  announcement_id: Int
+
+  announcement_title: String
+
+  announcement_description: String
+
+  announcement_content_detail: String
+
+  announcement_type: String
+
+  announcement_status: String
+
+  announcement_scheduled: DateTime
+
+  announcement_created: DateTime
+
+  announcement_updated: DateTime
+
+  notification_sent_count: Int
+
+  notification_read_count: Int
+
+  notification: [Notification]
+
+  latest_activity_log: ActivityLog
+}
+
+input RoleDropdownInput {
+  user_type_slug: UserTypeSlug
+
+  role_type: RoleType
+}
+
+type RoleLessDetail {
+  id: Int
+
+  name: String
+
+  permissions: [Permission]
+}
+
+input PermissionCheckInput {
+  permission_name: [String]
+
+  model_type: PermissionModelType
+
+  model_id: Int
+}
+
+enum PermissionModelType {
+  admin
+
+  fleet
+
+  vessel
+
+  company
+}
+
+type PermissionCheckResponse {
+  permission_name: String
+
+  has_permission: Boolean
+}
+
+type Setting {
+  setting_id: Int
+
+  setting_slug: String
+
+  setting_value: String
+
+  setting_description: String
+
+  is_editable: Int
+
+  setting_type: String
+
+  latest_activity_log: ActivityLog
+}
+
+type SettingCityLessDetail {
+  city_id: Int
+
+  city_name: String
+}
+
+type SettingStateLessDetail {
+  state_id: Int
+
+  state_name: String
+}
+
+type SettingCityPortLessDetail {
+  city_port_id: Int
+
+  city_port_name: String
+}
+
+type SettingCountryDialcodeLessDetail {
+  country_id: Int
+
+  country_dialcode: String
+}
+
+type SettingParticularCategoryLessDetail {
+  particular_category_id: Int
+
+  particular_category_name: String
+}
+
+type SettingVesselTypeLessDetail {
+  vessel_type_id: Int
+
+  vessel_type_name: String
+}
+
+input SettingEquipmentCategoryListingInput {
+  keyword: String
+
+  equipment_category_status: EquipmentCategoryStatus
+}
+
+type UserPicListingByAlphabet {
+  alphabet: String
+
+  user_pic: [User]
+}
+
+type UserContact {
+  user_contact_id: Int
+
+  user_contact_remark: String
+
+  user: User
+
+  contact: User
+}
+
+type UserContactListingByAlphabet {
+  alphabet: String
+
+  user_contact: [UserContact]
+}
+
+type VesselLessDetail {
+  vessel_id: Int
+
+  vessel_name: String
+}
+
+type VesselParticularListing {
+  particular_category_id: Int
+
+  particular_category_name: String
+
+  vessel_particular: [VesselParticular]
+}
+
+input VesselEquipmentTypeByCategoryInput {
+  keyword: String
+
+  vessel_id: Int
+}
+
+type VesselEquipmentTypeListingResponse {
+  setting_equipment_category: SettingEquipmentCategory
+
+  warning_type: WarningType
+
+  vessel_equipment_type: [VesselEquipmentType]
+}
+
+input VesselEquipmentAttentionDataListingInput {
+  vessel_ids: [Int]
+
+  year_month_start: String
+
+  year_month_end: String
+}
+
+input VesselServiceReportDataListingInput {
+  vessel_ids: [Int]
+
+  year_month_start: String
+
+  year_month_end: String
+
+  vessel_service_report_date_start: Date
+
+  vessel_service_report_date_end: Date
+
+  vessel_service_report_created_start: Date
+
+  vessel_service_report_created_end: Date
+}
+
+type VesselServiceReportDate {
+  year_month: String
+
+  vessel_service_report: [VesselServiceReport]
+}
+
+input VesselOwnershipTransferListingInput {
+  vessel_ownership_transfer_status: VesselOwnershiptTransferStatusFilter
+}
+
+enum VesselOwnershiptTransferStatusFilter {
+  invited
+
+  accepted
+
+  declined
+}
+
+type VesselOwnershipTransfer {
+  vessel_ownership_transfer_id: Int
+
+  vessel: Vessel
+
+  fleet_old: Fleet
+
+  fleet_new: Fleet
+
+  user: User
+
+  vessel_ownership_transfer_status: VesselOwnershiptTransferStatus
+
+  vessel_ownership_transfer_created: DateTime
+
+  vessel_ownership_transfer_updated: DateTime
+}
+
+enum VesselOwnershiptTransferStatus {
+  invited
+
+  accepted
+
+  declined
+
+  expired
+
+  cancelled
+}
+
+input ActivityLogListingInput {
+  log_name: LogName!
+
+  subject_id: Int!
+
+  description: String
+
+  start_date: Date
+
+  end_date: Date
+}
+
+enum LogName {
+  vessel
+
+  fleet
+
+  company
+
+  user
+}
+
+"""
+A paginated list of Activity items.
+"""
+type ActivityPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of Activity items.
+  """
+  data: [Activity!]!
+}
+
+"""
+Information about pagination using a fully featured paginator.
+"""
+type PaginatorInfo {
+  """
+  Number of items in the current page.
+  """
+  count: Int!
+
+  """
+  Index of the current page.
+  """
+  currentPage: Int!
+
+  """
+  Index of the first item in the current page.
+  """
+  firstItem: Int
+
+  """
+  Are there more pages after this one?
+  """
+  hasMorePages: Boolean!
+
+  """
+  Index of the last item in the current page.
+  """
+  lastItem: Int
+
+  """
+  Index of the last available page.
+  """
+  lastPage: Int!
+
+  """
+  Number of items per page.
+  """
+  perPage: Int!
+
+  """
+  Number of total available items.
+  """
+  total: Int!
+}
+
+type Activity {
+  id: Int
+
+  description: String
+
+  event: String
+
+  causer_id: Int
+
+  causer_type: String
+
+  subject_id: Int
+
+  subject_type: String
+
+  changes: Json
+
+  properties: Json
+
+  created_at: String
+
+  updated_at: String
+
+  user_causer: UserCauser
+}
+
+type UserCauser {
+  user_id: Int
+
+  user_fullname: String
+
+  user_reference_code: String
+
+  country_dialcode: String
+
+  user_mobile: String
+
+  user_mobile_display: String
+
+  user_email: String
+
+  user_status: UserStatus
+
+  otp_verified: String
+
+  is_verified: Boolean
+
+  user_logindate: String
+
+  user_ip: String
+
+  user_gender: UserGender
+
+  user_nric: String
+
+  user_dob: Date
+
+  user_profile_photo_file_url: String
+
+  user_profile_photo_file: MediaData
+
+  is_added_to_contact: Boolean
+
+  user_created: DateTime
+
+  user_updated: DateTime
+
+  user_role: Role
+
+  user_role_list: RoleWithModel
+
+  user_permissions: [Permission]
+
+  user_nationality: SettingCountry
+
+  user_type: UserType
+
+  company: Company
+
+  company_user: [Company]
+}
+
+input FleetListingInput {
+  company_id: Int
+
+  keyword: String
+
+  user_id: Int
+
+  fleet_created_start: Date
+
+  fleet_created_end: Date
+}
+
+"""
+A paginated list of Fleet items.
+"""
+type FleetPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of Fleet items.
+  """
+  data: [Fleet!]!
+}
+
+"""
+A paginated list of FleetPic items.
+"""
+type FleetPicPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of FleetPic items.
+  """
+  data: [FleetPic!]!
+}
+
+type FleetPic {
+  fleet_id: Int
+
+  user_id: Int
+
+  user_fullname: String
+
+  user_reference_code: String
+
+  country_dialcode: String
+
+  user_mobile: String
+
+  user_mobile_display: String
+
+  user_email: String
+
+  user_status: UserStatus
+
+  otp_verified: String
+
+  is_verified: Boolean
+
+  user_logindate: String
+
+  user_ip: String
+
+  user_gender: UserGender
+
+  user_nric: String
+
+  user_dob: Date
+
+  user_profile_photo_file_url: String
+
+  user_profile_photo_file: MediaData
+
+  user_created: DateTime
+
+  user_updated: DateTime
+
+  user_role: Role
+
+  user_role_list: RoleWithModel
+
+  user_permissions: [Permission]
+
+  user_nationality: SettingCountry
+
+  user_type: UserType
+
+  company: Company
+
+  is_owner: Boolean
+
+  is_you: Boolean
+
+  is_added_to_contact: Boolean
+
+  fleet_role_id: Int
+
+  fleet_role_name: String
+}
+
+input NotificationListingInput {
+  keyword: String
+
+  user_id: Int
+
+  notification_type_id: Int
+}
+
+"""
+A paginated list of Notification items.
+"""
+type NotificationPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of Notification items.
+  """
+  data: [Notification!]!
+}
+
+input VesselListingInput {
+  fleet_id: Int
+
+  keyword: String
+
+  user_id: Int
+
+  vessel_created_start: Date
+
+  vessel_created_end: Date
+}
+
+"""
+A paginated list of Vessel items.
+"""
+type VesselPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of Vessel items.
+  """
+  data: [Vessel!]!
+}
+
+input VesselEquipmentTypeListingInput {
+  vessel_id: Int
+
+  equipment_category_id: Int
+}
+
+"""
+A paginated list of VesselEquipmentType items.
+"""
+type VesselEquipmentTypePaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of VesselEquipmentType items.
+  """
+  data: [VesselEquipmentType!]!
+}
+
+input VesselEquipmentListingInput {
+  keyword: String
+
+  vessel_id: Int
+
+  vessel_equipment_type_id: Int
+}
+
+"""
+A paginated list of VesselEquipment items.
+"""
+type VesselEquipmentPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of VesselEquipment items.
+  """
+  data: [VesselEquipment!]!
+}
+
+"""
+A paginated list of VesselPic items.
+"""
+type VesselPicPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of VesselPic items.
+  """
+  data: [VesselPic!]!
+}
+
+type VesselPic {
+  vessel_id: Int
+
+  user_id: Int
+
+  user_fullname: String
+
+  user_reference_code: String
+
+  country_dialcode: String
+
+  user_mobile: String
+
+  user_mobile_display: String
+
+  user_email: String
+
+  user_status: UserStatus
+
+  otp_verified: DateTime
+
+  is_verified: Boolean
+
+  user_logindate: DateTime
+
+  user_ip: String
+
+  user_gender: UserGender
+
+  user_nric: String
+
+  user_dob: Date
+
+  user_profile_photo_file_url: String
+
+  user_profile_photo_file: MediaData
+
+  user_created: DateTime
+
+  user_updated: DateTime
+
+  user_role: Role
+
+  user_role_list: RoleWithModel
+
+  user_permissions: [Permission]
+
+  user_nationality: SettingCountry
+
+  user_type: UserType
+
+  company: Company
+
+  is_you: Boolean
+
+  is_added_to_contact: Boolean
+
+  vessel_role_id: Int
+
+  vessel_role_name: String
+}
+
+input ServiceReportListingInput {
+  vessel_id: Int
+
+  vessel_equipment_id: Int
+
+  keyword: String
+
+  vessel_service_report_date_start: Date
+
+  vessel_service_report_date_end: Date
+
+  vessel_service_report_created_start: Date
+
+  vessel_service_report_created_end: Date
+}
+
+"""
+A paginated list of VesselServiceReport items.
+"""
+type VesselServiceReportPaginator {
+  """
+  Pagination information about the list of items.
+  """
+  paginatorInfo: PaginatorInfo!
+
+  """
+  A list of VesselServiceReport items.
+  """
+  data: [VesselServiceReport!]!
+}
+
+type Mutation {
+  Register(input: RegisterInput): SuccessResponse
+
+  Login(input: LoginInput): TokenResponse
+
+  Logout: SuccessResponse
+
+  SendOtp(input: SendOtpInput): SuccessResponse
+
+  VerifyOtp(input: VerifyOtpInput): SuccessResponse
+
+  ResetPassword(input: ResetPasswordInput): SuccessResponse
+
+  ProfileUpdate(input: ProfileUpdateInput): SuccessResponse
+
+  CompanyCreate(input: CompanyCreateInput): SuccessResponse
+
+  CompanyUpdate(input: CompanyUpdateInput): SuccessResponse
+
+  SendUpdateMobileOtp(input: MobileUpdateInput): SuccessResponse
+
+  VerifyUpdateMobileOtp(input: VerifyOtpInput): SuccessResponse
+
+  FleetCreate(input: FleetCreateInput): SuccessResponse
+
+  FleetUpdate(input: FleetUpdateInput): SuccessResponse
+
+  FleetDelete(fleet_id: Int): SuccessResponse
+
+  FleetOwnershipTransferCreate(input: FleetOwnershipTransferCreateInput): SuccessResponse
+
+  FleetOwnershipTransferUpdateStatus(input: FleetOwnershipTransferUpdateStatusInput): SuccessResponse
+
+  FleetPicUpdateOrCreate(input: FleetPicUpdateOrCreateInput): SuccessResponse
+
+  FleetPicCreate(input: FleetPicCreateInput): SuccessResponse
+
+  FleetPicUpdate(input: FleetPicUpdateInput): SuccessResponse
+
+  FleetPicDelete(input: FleetPicDeleteInput): SuccessResponse
+
+  NotificationReadUpdate(notification_id: Int): SuccessResponse
+
+  NotificationAllReadUpdate: SuccessResponse
+
+  UserUpdatePassword(input: UserUpdatePasswordInput): SuccessResponse
+
+  UserContactUpdateOrCreate(input: UserContactUpdateOrCreateInput): SuccessResponse
+
+  UserContactDelete(user_id: Int): SuccessResponse
+
+  DeleteUserAccount: SuccessResponse
+
+  VesselCreate(input: VesselCreateInput): SuccessResponse
+
+  VesselUpdate(input: VesselUpdateInput): SuccessResponse
+
+  VesselDelete(vessel_id: Int): SuccessResponse
+
+  VesselPicUpdateOrCreate(input: VesselPicUpdateOrCreateInput): SuccessResponse
+
+  VesselPicCreate(input: VesselPicCreateInput): SuccessResponse
+
+  VesselPicUpdate(input: VesselPicUpdateInput): SuccessResponse
+
+  VesselPicDelete(input: VesselPicDeleteInput): SuccessResponse
+
+  VesselServiceReportCreate(input: VesselServiceReportCreateInput): SuccessResponse
+
+  VesselServiceReportUpdate(input: VesselServiceReportUpdateInput): SuccessResponse
+
+  VesselServiceReportDelete(vessel_service_report_id: Int): SuccessResponse
+
+  VesselEquipmentTypeUpdateOrCreate(input: VesselEquipmentTypeCreateInput): SuccessResponse
+
+  VesselEquipmentTypeDelete(vessel_equipment_type_id: Int): SuccessResponse
+
+  VesselEquipmentDelete(vessel_equipment_id: Int): SuccessResponse
+
+  VesselEquipmentByTypeDelete(input: VesselEquipmentByTypeDelete): SuccessResponse
+
+  VesselParticularUpdateOrCreate(input: VesselParticularUpdateOrCreate): SuccessResponse
+
+  VesselParticularExport(input: VesselParticularExportInput): UrlResponse
+
+  VesselEquipmentTypeExport(input: VesselEquipmentTypeExportInput): UrlResponse
+
+  VesselOwnershipTransferCreate(input: VesselOwnershipTransferCreateInput): SuccessResponse
+
+  VesselOwnershipTransferUpdateStatus(input: VesselOwnershipTransferUpdateStatusInput): SuccessResponse
+
+  VesselOwnershipTransferCancelled(input: VesselOwnershipTransferCancelledInput): SuccessResponse
+
+  MediaDelete(media_id: Int): SuccessResponse
+}
+
+input RegisterInput {
+  user_fullname: String
+
+  user_email: String
+
+  user_mobile: UserMobileInput
+
+  password: String
+
+  confirm_password: String
+
+  is_management: Boolean
+
+  company_name: String
+
+  country_id: Int
+
+  city_port_id: Int
+
+  role_id: Int
+}
+
+input UserMobileInput {
+  country_dialcode: String
+
+  user_mobile: String
+}
+
+type SuccessResponse {
+  status: Boolean!
+
+  message: String
+
+  data: Json
+
+  error: Json
+}
+
+input LoginInput {
+  login_type: LoginType
+
+  user_mobile: UserMobileInput
+
+  user_email: String
+
+  password: String
+
+  platform: Platform
+}
+
+enum LoginType {
+  user_email
+
+  user_mobile
+}
+
+enum Platform {
+  web
+
+  mobile
+}
+
+type TokenResponse {
+  token: String
+
+  token_type: String
+}
+
+input SendOtpInput {
+  user_mobile: UserMobileInput
+}
+
+input VerifyOtpInput {
+  user_mobile: VerifyNewOtpInput
+
+  otp_code: String
+}
+
+input VerifyNewOtpInput {
+  new_user_mobile: String
+
+  new_country_dialcode: String
+
+  otp_code: String
+}
+
+input ResetPasswordInput {
+  token: String
+
+  user_mobile: UserMobileInput
+
+  password: String
+
+  confirm_password: String
+}
+
+input ProfileUpdateInput {
+  user_profile_photo: Upload
+
+  user_fullname: String
+
+  user_email: String
+}
+
+scalar Upload
+
+input CompanyCreateInput {
+  company_profile_photo: Upload
+
+  company_name: String
+
+  company_address: String
+
+  company_address_2: String
+
+  company_postcode: String
+
+  city_name: String
+
+  state_name: String
+
+  country_id: Int
+
+  city_port_id: Int
+
+  role_id: Int
+}
+
+input CompanyUpdateInput {
+  company_id: Int
+
+  company_profile_photo: Upload
+
+  company_name: String
+
+  company_address: String
+
+  company_address_2: String
+
+  company_postcode: String
+
+  city_name: String
+
+  state_name: String
+
+  country_id: Int
+
+  city_port_id: Int
+
+  role_id: Int
+}
+
+input MobileUpdateInput {
+  country_dialcode: String
+
+  new_user_mobile: String
+}
+
+input FleetCreateInput {
+  fleet_name: String
+
+  fleet_description: String
+
+  fleet_remark: String
+}
+
+input FleetUpdateInput {
+  fleet_id: Int
+
+  fleet_name: String
+
+  fleet_description: String
+
+  fleet_remark: String
+}
+
+input FleetOwnershipTransferCreateInput {
+  fleet_id: Int
+
+  user_id: Int
+}
+
+input FleetOwnershipTransferUpdateStatusInput {
+  fleet_ownership_transfer_id: Int
+
+  fleet_ownership_transfer_status: FleetOwnershipTransferStatus
+}
+
+enum FleetOwnershipTransferStatus {
+  invited
+
+  accepted
+
+  declined
+
+  expired
+}
+
+input FleetPicUpdateOrCreateInput {
+  fleet_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input FleetPicCreateInput {
+  fleet_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input FleetPicUpdateInput {
+  fleet_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input FleetPicDeleteInput {
+  fleet_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input UserUpdatePasswordInput {
+  token: String
+
+  new_password: String
+
+  confirm_password: String
+}
+
+input UserContactUpdateOrCreateInput {
+  user_id: Int
+
+  user_contact_remark: String
+}
+
+input VesselCreateInput {
+  fleet_id: Int
+
+  vessel_name: String
+
+  vessel_imo_code: String
+
+  vessel_type_id: Int
+
+  vessel_description: String
+
+  vessel_remark: String
+
+  vessel_image: [Upload]
+}
+
+input VesselUpdateInput {
+  vessel_id: Int
+
+  vessel_type_id: Int
+
+  vessel_name: String
+
+  vessel_description: String
+
+  vessel_remark: String
+
+  vessel_image: [Upload]
+}
+
+input VesselPicUpdateOrCreateInput {
+  vessel_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input VesselPicCreateInput {
+  vessel_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input VesselPicUpdateInput {
+  vessel_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input VesselPicDeleteInput {
+  vessel_id: Int
+
+  user_id: Int
+
+  role_id: Int
+}
+
+input VesselServiceReportCreateInput {
+  vessel_id: Int
+
+  vessel_equipment_id: Int
+
+  vessel_equipment_type_id: Int
+
+  vessel_service_report_name: String
+
+  vessel_service_report_date: Date
+
+  vessel_service_report_file: [Upload]
+}
+
+input VesselServiceReportUpdateInput {
+  vessel_service_report_id: Int
+
+  vessel_id: Int
+
+  vessel_equipment_id: Int
+
+  vessel_service_report_name: String
+
+  vessel_service_report_date: Date
+
+  vessel_service_report_file: [Upload]
+}
+
+input VesselEquipmentTypeCreateInput {
+  vessel_equipment_type_id: Int
+
+  vessel_id: Int
+
+  equipment_type_id: Int
+
+  vessel_equipment: [VesselEquipmentInput]
+}
+
+input VesselEquipmentInput {
+  equipment_id: Int
+
+  vessel_equipment_name: String
+
+  vessel_equipment_value: Json
+
+  vessel_equipment_quantity: Int
+
+  vessel_equipment_remark: String
+}
+
+input VesselEquipmentByTypeDelete {
+  vessel_id: Int
+
+  equipment_type_id: Int
+}
+
+input VesselParticularUpdateOrCreate {
+  vessel_id: Int
+
+  vessel_particular: [VesselParticularInput]
+}
+
+input VesselParticularInput {
+  vessel_particular_id: Int
+
+  particular_id: Int
+
+  particular_category_id: Int
+
+  vessel_particular_name: String
+
+  vessel_particular_value: Json
+}
+
+input VesselParticularExportInput {
+  vessel_id: Int
+
+  keyword: String
+}
+
+type UrlResponse {
+  status: Boolean!
+
+  message: String
+
+  url: String
+}
+
+input VesselEquipmentTypeExportInput {
+  vessel_id: Int
+
+  equipment_category_id: Int
+
+  equipment_type_id: Int
+}
+
+input VesselOwnershipTransferCreateInput {
+  fleet_id: Int
+
+  vessel_id: Int
+
+  user_id: Int
+
+  transfer_type: TransferType
+}
+
+enum TransferType {
+  self
+
+  other
+}
+
+input VesselOwnershipTransferUpdateStatusInput {
+  vessel_id: Int
+
+  fleet_id: Int
+
+  vessel_ownership_transfer_status: VesselOwnershipTransferStatus
+}
+
+enum VesselOwnershipTransferStatus {
+  declined
+
+  accepted
+}
+
+input VesselOwnershipTransferCancelledInput {
+  vessel_id: Int
+}
+
+"""
+A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.
+"""
+type __Schema {
+  """
+  A list of all types supported by this server.
+  """
+  types: [__Type!]!
+
+  """
+  The type that query operations will be rooted at.
+  """
+  queryType: __Type!
+
+  """
+  If this server supports mutation, the type that mutation operations will be rooted at.
+  """
+  mutationType: __Type
+
+  """
+  If this server support subscription, the type that subscription operations will be rooted at.
+  """
+  subscriptionType: __Type
+
+  """
+  A list of all directives supported by this server.
+  """
+  directives: [__Directive!]!
+}
+
+"""
+The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+
+Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name and description, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+"""
+type __Type {
+  kind: __TypeKind!
+
+  name: String
+
+  description: String
+
+  fields(includeDeprecated: Boolean = false): [__Field!]
+
+  interfaces: [__Type!]
+
+  possibleTypes: [__Type!]
+
+  enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+
+  inputFields: [__InputValue!]
+
+  ofType: __Type
+}
+
+"""
+An enum describing what kind of type a given `__Type` is.
+"""
+enum __TypeKind {
+  """
+  Indicates this type is a scalar.
+  """
+  SCALAR
+
+  """
+  Indicates this type is an object. `fields` and `interfaces` are valid fields.
+  """
+  OBJECT
+
+  """
+  Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.
+  """
+  INTERFACE
+
+  """
+  Indicates this type is a union. `possibleTypes` is a valid field.
+  """
+  UNION
+
+  """
+  Indicates this type is an enum. `enumValues` is a valid field.
+  """
+  ENUM
+
+  """
+  Indicates this type is an input object. `inputFields` is a valid field.
+  """
+  INPUT_OBJECT
+
+  """
+  Indicates this type is a list. `ofType` is a valid field.
+  """
+  LIST
+
+  """
+  Indicates this type is a non-null. `ofType` is a valid field.
+  """
+  NON_NULL
+}
+
+"""
+Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.
+"""
+type __Field {
+  name: String!
+
+  description: String
+
+  args: [__InputValue!]!
+
+  type: __Type!
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
+"""
+type __InputValue {
+  name: String!
+
+  description: String
+
+  type: __Type!
+
+  """
+  A GraphQL-formatted string representing the default value for this input value.
+  """
+  defaultValue: String
+}
+
+"""
+One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.
+"""
+type __EnumValue {
+  name: String!
+
+  description: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+"""
+A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.
+
+In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
+"""
+type __Directive {
+  name: String!
+
+  description: String
+
+  args: [__InputValue!]!
+
+  isRepeatable: Boolean!
+
+  locations: [__DirectiveLocation!]!
+}
+
+"""
+A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
+"""
+enum __DirectiveLocation {
+  """
+  Location adjacent to a query operation.
+  """
+  QUERY
+
+  """
+  Location adjacent to a mutation operation.
+  """
+  MUTATION
+
+  """
+  Location adjacent to a subscription operation.
+  """
+  SUBSCRIPTION
+
+  """
+  Location adjacent to a field.
+  """
+  FIELD
+
+  """
+  Location adjacent to a fragment definition.
+  """
+  FRAGMENT_DEFINITION
+
+  """
+  Location adjacent to a fragment spread.
+  """
+  FRAGMENT_SPREAD
+
+  """
+  Location adjacent to an inline fragment.
+  """
+  INLINE_FRAGMENT
+
+  """
+  Location adjacent to a variable definition.
+  """
+  VARIABLE_DEFINITION
+
+  """
+  Location adjacent to a schema definition.
+  """
+  SCHEMA
+
+  """
+  Location adjacent to a scalar definition.
+  """
+  SCALAR
+
+  """
+  Location adjacent to an object type definition.
+  """
+  OBJECT
+
+  """
+  Location adjacent to a field definition.
+  """
+  FIELD_DEFINITION
+
+  """
+  Location adjacent to an argument definition.
+  """
+  ARGUMENT_DEFINITION
+
+  """
+  Location adjacent to an interface definition.
+  """
+  INTERFACE
+
+  """
+  Location adjacent to a union definition.
+  """
+  UNION
+
+  """
+  Location adjacent to an enum definition.
+  """
+  ENUM
+
+  """
+  Location adjacent to an enum value definition.
+  """
+  ENUM_VALUE
+
+  """
+  Location adjacent to an input object type definition.
+  """
+  INPUT_OBJECT
+
+  """
+  Location adjacent to an input object field definition.
+  """
+  INPUT_FIELD_DEFINITION
+}
+
+type Images {
+  media_id: Int
+
+  full: String
+
+  thumb: String
+}
+
+type Media {
+  media_id: Int
+
+  url: String
+
+  type: String
+}
+
+enum AnnouncementType {
+  now
+
+  scheduled
+}
+
+enum AnnouncementStatus {
+  pending
+
+  released
+}
+
+type CompanyLessDetail {
+  company_id: Int
+
+  company_name: String
+}
+
+type FleetOwnershipTransfer {
+  fleet_ownership_transfer_id: Int
+
+  fleet_id: Int
+
+  user_id_old: Int
+
+  user_id_new: Int
+
+  fleet_ownership_transfer_status: FleetOwnershipTransferStatus
+
+  fleet_ownership_transfer_created: String
+
+  fleet_ownership_transfer_updated: String
+}
+
+type HomepageAdmin {
+  total_fleet: Int
+
+  total_vessel: Int
+
+  total_user: Int
+
+  total_company: Int
+
+  vessel: [Vessel]
+
+  vessel_service_report: [VesselServiceReport]
+
+  vessel_equipment_attention: [VesselEquipmentAttention]
+
+  total_user_registered: [ChartDataResponse]
+
+  fleet_graph: [ChartDataResponse]
+
+  vessel_graph: [ChartDataResponse]
+
+  company_graph: [ChartDataResponse]
+}
+
+type ChartDataResponse {
+  label: String
+
+  value: Int
+}
+
+type NotificationTypeLessDetail {
+  notification_type_id: Int
+
+  notification_type_name: String
+}
+
+enum SettingSlug {
+  terms_conditions
+
+  privacy_policy
+}
+
+type SettingEquipmentLessDetail {
+  equipment_id: Int
+
+  equipment_name: String
+}
+
+type SettingEquipmentCategoryLessDetail {
+  equipment_category_id: Int
+
+  equipment_category_name: String
+}
+
+type SettingEquipmentTypeLessDetail {
+  equipment_type_id: Int
+
+  equipment_type_name: String
+}
+
+type SettingFormLessDetail {
+  form_id: Int
+
+  form_name: String
+}
+
+type SettingFormat {
+  value: String
+
+  name: String
+}
+
+type SettingParticularLessDetail {
+  particular_id: Int
+
+  particular_name: String
+}
+
+type UserLessDetail {
+  user_id: Int
+
+  user_fullname: String
+
+  company: Company
+}
+
+type UserContactLessDetail {
+  user_contact_id: Int
+
+  user_contact_remark: String
+}
+
+type VesselEquipmentDetails {
+  vessel_equipment_name: String
+
+  vessel_equipment_value: Json
+
+  is_attention_date: Int
+
+  vessel_equipment_quantity: Int
+
+  vessel_equipment_remark: String
+
+  vessel_equipment_created: DateTime
+
+  vessel_equipment_updated: DateTime
+
+  vessel: Vessel
+
+  setting_equipment: SettingEquipment
+
+  latest_activity_log: ActivityLog
+
+  warning_type: WarningType
+}
+
+type VesselEquipmentAttentionDetails {
+  vessel_equipment_name: String
+
+  vessel_equipment_attention_date: Date
+
+  warning_type: WarningType
+
+  is_notified: Int
+}
+
+input VesselEquipmentByTypeCategoryInput {
+  vessel_id: Int
+
+  equipment_category_id: Int
+}
+
+input VesselEquipmentByTypeListingInput {
+  vessel_id: Int
+
+  equipment_type_id: Int
+}
+
+input VesselUserPicInput {
+  user_id: Int
+
+  role_id: Int
+}
+
+"""
+Directions for ordering a list of records.
+"""
+enum SortOrder {
+  """
+  Sort records in ascending order.
+  """
+  ASC
+
+  """
+  Sort records in descending order.
+  """
+  DESC
+}
+
+"""
+Aggregate functions when ordering by a relation without specifying a column.
+"""
+enum OrderByRelationAggregateFunction {
+  """
+  Amount of items.
+  """
+  COUNT
+}
+
+"""
+Aggregate functions when ordering by a relation that may specify a column.
+"""
+enum OrderByRelationWithColumnAggregateFunction {
+  """
+  Average.
+  """
+  AVG
+
+  """
+  Minimum.
+  """
+  MIN
+
+  """
+  Maximum.
+  """
+  MAX
+
+  """
+  Sum.
+  """
+  SUM
+
+  """
+  Amount of items.
+  """
+  COUNT
+}
+
+"""
+Allows ordering a list of records.
+"""
+input OrderByClause {
+  """
+  The column that is used for ordering.
+  """
+  column: String!
+
+  """
+  The direction that is used for ordering.
+  """
+  order: SortOrder!
+}
+
+"""
+Information about pagination using a simple paginator.
+"""
+type SimplePaginatorInfo {
+  """
+  Number of items in the current page.
+  """
+  count: Int!
+
+  """
+  Index of the current page.
+  """
+  currentPage: Int!
+
+  """
+  Index of the first item in the current page.
+  """
+  firstItem: Int
+
+  """
+  Index of the last item in the current page.
+  """
+  lastItem: Int
+
+  """
+  Number of items per page.
+  """
+  perPage: Int!
+
+  """
+  Are there more pages after this one?
+  """
+  hasMorePages: Boolean!
+}
+
+"""
+Information about pagination using a Relay style cursor connection.
+"""
+type PageInfo {
+  """
+  When paginating forwards, are there more items?
+  """
+  hasNextPage: Boolean!
+
+  """
+  When paginating backwards, are there more items?
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  The cursor to continue paginating backwards.
+  """
+  startCursor: String
+
+  """
+  The cursor to continue paginating forwards.
+  """
+  endCursor: String
+
+  """
+  Total number of nodes in the paginated connection.
+  """
+  total: Int!
+
+  """
+  Number of nodes in the current page.
+  """
+  count: Int!
+
+  """
+  Index of the current page.
+  """
+  currentPage: Int!
+
+  """
+  Index of the last available page.
+  """
+  lastPage: Int!
+}
+
+"""
+Specify if you want to include or exclude trashed results from a query.
+"""
+enum Trashed {
+  """
+  Only return trashed results.
+  """
+  ONLY
+
+  """
+  Return both trashed and non-trashed results.
+  """
+  WITH
+
+  """
+  Only return non-trashed results.
+  """
+  WITHOUT
+}
+
+"""
+Directs the executor to include this field or fragment only when the `if` argument is true.
+"""
+directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Directs the executor to skip this field or fragment when the `if` argument is true.
+"""
+directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Marks an element of a GraphQL schema as no longer supported.
+"""
+directive @deprecated ("Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https:\/\/commonmark.org\/)." reason: String = "No longer supported") on FIELD_DEFINITION|ENUM_VALUE
+
+schema {
+  query: Query
+  mutation: Mutation
+}
